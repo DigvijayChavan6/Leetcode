@@ -49,18 +49,20 @@ class Solution
 public:
     bool hasPathSum(TreeNode *root, int targetSum)
     {
-        return pre(root, targetSum, 0);
-    }
-    bool pre(TreeNode *ro, int m, int sum)
-    {
-        if (ro == NULL)
+        if (root == NULL)
             return false;
-        if (ro->left == NULL && ro->right == NULL)
-        {
-            sum += ro->val;
-            if (m == sum)
-                return true;
-        }
-        return pre(ro->left, m, sum + ro->val) || pre(ro->right, m, sum + ro->val);
+        if (root->left == NULL && root->right == NULL && targetSum - root->val == 0)
+            return true;
+        bool l = hasPathSum(root->left, targetSum - root->val);
+        bool r = hasPathSum(root->right, targetSum - root->val);
+        return l || r;
     }
+    // bool pre(TreeNode * ro, int m, int sum){
+    //     if(ro==NULL)return false;
+    //     if(ro->left==NULL&&ro->right==NULL){
+    //         sum+=ro->val;
+    //         if(m==sum)return true;
+    //     }
+    //     return pre(ro->left,m,sum+ro->val) || pre(ro->right,m,sum+ro->val);
+    // }
 };
