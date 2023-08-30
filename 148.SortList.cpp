@@ -43,47 +43,79 @@ class Solution
 public:
     ListNode *sortList(ListNode *head)
     {
-        ListNode *p = head, *t = head;
-        vector<int> vec;
-        while (p != NULL)
+        ListNode *tp = NULL, *slo, *fir;
+        slo = fir = head;
+        if (head == NULL || head->next == NULL)
+            return head;
+        while (fir != NULL && fir->next != NULL)
         {
-            vec.push_back(p->val);
-            p = p->next;
+            tp = slo;
+            slo = slo->next;
+            fir = fir->next->next;
         }
-        ms(vec, 0, vec.size() - 1);
-        for (int i = 0; i < vec.size(); i++)
-        {
-            t->val = vec[i];
-            t = t->next;
-        }
-        return head;
+        tp->next = NULL;
+        ListNode *lf = sortList(head);
+        ListNode *en = sortList(slo);
+        return mrg(lf, en);
     }
-    void ms(vector<int> &vec, int l, int h)
+    ListNode *mrg(ListNode *l, ListNode *h)
     {
-        if (l < h)
+        ListNode *nod = new ListNode(0);
+        ListNode *cn = nod;
+        while (l != NULL && h != NULL)
         {
-            int mid = (l + h) / 2;
-            ms(vec, l, mid);
-            ms(vec, mid + 1, h);
-            mrg(vec, l, mid, h);
-        }
-    }
-    void mrg(vector<int> &vec, int l, int mid, int h)
-    {
-        int s1 = l, s2 = mid + 1;
-        vector<int> tp;
-        while (s1 <= mid && s2 <= h)
-        {
-            if (vec[s1] <= vec[s2])
-                tp.push_back(vec[s1++]);
+            if (l->val < h->val)
+            {
+                cn->next = l;
+                l = l->next;
+            }
             else
-                tp.push_back(vec[s2++]);
+            {
+                cn->next = h;
+                h = h->next;
+            }
+            cn = cn->next;
         }
-        while (s1 <= mid)
-            tp.push_back(vec[s1++]);
-        while (s2 <= h)
-            tp.push_back(vec[s2++]);
-        for (int i = l; i <= h; i++)
-            vec[i] = tp[i - l];
+        if (l != NULL)
+            cn->next = l;
+        if (h != NULL)
+            cn->next = h;
+        return nod->next;
     }
 };
+// class Solution {
+// public:
+//     ListNode* sortList(ListNode* head) {
+//         ListNode *p=head,*t=head;
+//         vector<int> vec;
+//         while(p!=NULL){
+//             vec.push_back(p->val);
+//             p=p->next;
+//         }
+//         ms(vec,0,vec.size()-1);
+//         for(int i=0;i<vec.size();i++){
+//             t->val=vec[i];
+//             t=t->next;
+//         }
+//         return head;
+//     }
+//     void ms(vector<int> &vec,int l,int h){
+//         if(l<h){
+//             int mid=(l+h)/2;
+//             ms(vec,l,mid);
+//             ms(vec,mid+1,h);
+//             mrg(vec,l,mid,h);
+//         }
+//     }
+//     void mrg(vector<int> &vec,int l,int mid,int h){
+//         int s1=l,s2=mid+1;
+//         vector<int> tp;
+//         while(s1<=mid && s2<=h){
+//             if(vec[s1]<=vec[s2])tp.push_back(vec[s1++]);
+//             else tp.push_back(vec[s2++]);
+//         }
+//         while(s1<=mid)tp.push_back(vec[s1++]);
+//         while(s2<=h)tp.push_back(vec[s2++]);
+//         for(int i=l;i<=h;i++)vec[i]=tp[i-l];
+//     }
+// };
