@@ -33,12 +33,18 @@
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
-        map<int,bool> mp;
-        int n=nums.size();
-        for(int i=0;i<n;i++){
-            if(mp[nums[i]])return nums[i];
-            mp[nums[i]]=true;
+        for(int i=0;i<nums.size();i++){
+            int ind=abs(nums[i]);
+            nums[ind]*=-1;
+            if(nums[ind]>0)return abs(nums[i]);
         }
         return 0;
+        // map<int,bool> mp;
+        // int n=nums.size();
+        // for(int i=0;i<n;i++){
+        //     if(mp[nums[i]])return nums[i];
+        //     mp[nums[i]]=true;
+        // }
+        // return 0;
     }
 };
