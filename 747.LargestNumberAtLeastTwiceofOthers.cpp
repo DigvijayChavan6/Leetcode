@@ -27,10 +27,27 @@
 class Solution {
 public:
     int dominantIndex(vector<int>& nums) {
-        map<int,int> mp;
-        for(int i=0;i<nums.size();i++)mp[nums[i]]=i;
-        sort(nums.rbegin(),nums.rend());
-        if(nums[0]>=2*nums[1])return mp[nums[0]];
+        int mx1=nums[0],p=0;
+        for(int i=0;i<nums.size();i++){
+            if(mx1<nums[i]){
+                mx1=nums[i];
+                p=i;
+            }
+        }
+        nums.erase(nums.begin()+p);
+        int m=nums[0],pp=1;
+        for(int i=0;i<nums.size();i++){
+            if(m<nums[i]&&nums[i]!=mx1){
+                m=nums[i];
+                pp=i;
+            }
+        }
+        if(mx1>=m*2)return p;
         return -1;
+        // map<int,int> mp;
+        // for(int i=0;i<nums.size();i++)mp[nums[i]]=i;
+        // sort(nums.rbegin(),nums.rend());
+        // if(nums[0]>=2*nums[1])return mp[nums[0]];
+        // return -1;
     }
 };
