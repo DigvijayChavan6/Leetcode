@@ -31,28 +31,46 @@
 //     1 <= nums[i] <= 109
 //     1 <= k <= 109
 
+// class Solution {
+// public:
+//     int maxOperations(vector<int>& nums, int k) {
+//         int cnt=0,n=nums.size();
+//         unordered_map<int,int> mp;
+//         for(int i=0;i<n;i++)mp[nums[i]]++;
+//         for(int i=0;i<n;i++){
+//             int f=k-nums[i];
+//             if(f==nums[i]){
+//                 if(mp[f]>1){
+//                     cnt++;
+//                     mp[f]--;
+//                     mp[f]--;
+//                 }
+//             }
+//             else{
+//                 if(mp[f]>0 && mp[nums[i]]>0){
+//                     mp[f]--;
+//                     mp[nums[i]]--;
+//                     cnt++;
+//                 }
+//             }
+//         }
+//         return cnt;
+//     }
+// };
+
 class Solution {
 public:
     int maxOperations(vector<int>& nums, int k) {
-        int cnt=0,n=nums.size();
-        unordered_map<int,int> mp;
-        for(int i=0;i<n;i++)mp[nums[i]]++;
-        for(int i=0;i<n;i++){
-            int f=k-nums[i];
-            if(f==nums[i]){
-                if(mp[f]>1){
-                    cnt++;
-                    mp[f]--;
-                    mp[f]--;
-                }
+        int i=0,j=nums.size()-1,cnt=0;
+        sort(nums.begin(),nums.end());
+        while(i<j){
+            if(nums[i]+nums[j]==k){
+                cnt++;
+                i++;
+                j--;
             }
-            else{
-                if(mp[f]>0 && mp[nums[i]]>0){
-                    mp[f]--;
-                    mp[nums[i]]--;
-                    cnt++;
-                }
-            }
+            else if(nums[i]+nums[j]>k)j--;
+            else i++;
         }
         return cnt;
     }
