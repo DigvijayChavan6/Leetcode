@@ -42,4 +42,26 @@ public:
     }
 };
 
-
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_set<int> st;
+        int size=nums.size();
+        if(size==0)return 0;
+        for(int i=0;i<size;i++)st.insert(nums[i]);
+        int mx=0,cnt=0,minimum=INT_MIN;
+        for(auto it : st){
+            int x=it;
+            if(st.find(x-1)==st.end()){
+                cnt=1;
+                minimum=x;
+                while(st.find(x+1) != st.end()){
+                    cnt++;
+                    ++x;
+                }
+                mx=max(mx,cnt);
+            }
+        }
+        return mx;
+    }
+};
