@@ -85,3 +85,23 @@ public:
         return vec;
     }
 };
+
+// MOST OPTIMISED
+
+class Solution {
+public:
+    vector<int> sequentialDigits(int low, int high) {
+        string s="123456789";
+        vector<int> vec;
+        for(int i=0;i<9;i++){
+            string num="";
+            for(int j=i;j<9;j++){
+                num+=s[j];
+                int val=stoi(num);
+                if(val<=high && val>=low)vec.push_back(val);
+            }
+        }
+        sort(vec.begin(),vec.end());
+        return vec;
+    }
+};
