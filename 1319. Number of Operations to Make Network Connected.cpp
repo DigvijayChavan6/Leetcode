@@ -1,37 +1,39 @@
 class DSU{
-    vector<int> parent, size;
+    vector<int> size;
+    vector<int> parent;
+    
     public:
+    
     DSU(int n){
-        parent.resize(n+1);
         size.resize(n+1, 1);
+        parent.resize(n+1);
         for(int i = 0; i <= n; i++){
             parent[i] = i;
         }
     }
-
+    
     int find(int u){
-        if(parent[u] == u){
+        if(u == parent[u]){
             return u;
         }
         return parent[u] = find(parent[u]);
     }
-
-    void unite(int u, int v){
+    
+    void unio(int u, int v){
         int pu = find(u);
         int pv = find(v);
-
-        if(parent[pu] == parent[pv])return;
-
+        
+        if(pu == pv)return;
+        
         if(size[pu] < size[pv]){
             parent[pu] = pv;
             size[pv] += size[pu];
         }else{
             parent[pv] = pu;
-            size[pv] += size[pu];
+            size[pu] += size[pv];
         }
     }
 };
-
 class Solution {
 public:
     int makeConnected(int n, vector<vector<int>>& connections) {
