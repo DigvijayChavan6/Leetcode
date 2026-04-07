@@ -25,3 +25,52 @@ public:
         return getMax(0, 1, n, prices, dp);
     }
 };
+
+
+
+class Solution {
+    // int getMax(int i, int canBuy, int n, vector<int> &prices,
+    // vector<vector<int>> &dp){
+    //     if(i >= n)return 0;
+    //     int profit = 0;
+    //     int consider = 0;
+    //     int notConsider = 0;
+
+    //     if(dp[i][canBuy] != -1)return dp[i][canBuy];
+
+    //     if(canBuy == 1){
+    //         consider = -prices[i] + getMax(i+1, 0, n, prices, dp);
+    //         notConsider = getMax(i+1, canBuy, n, prices, dp);
+    //     }else{
+    //         consider = prices[i] + getMax(i+2, 1, n, prices, dp);
+    //         notConsider = getMax(i+1, canBuy, n, prices, dp);
+    //     }
+    //     profit = max(consider, notConsider);
+    //     return dp[i][canBuy] = profit;
+    // }
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<int> dp(2, 0), prev(2, 0), old(2, 0);
+        int profit = 0;
+        int consider = 0;
+        int notConsider = 0;
+
+        for(int i = n-1; i >= 0; i--){
+            for(int canBuy = 0; canBuy <= 1; canBuy++){
+                if(canBuy == 1){
+                    consider = -prices[i] + prev[0];
+                    notConsider = prev[canBuy];
+                }else{
+                    consider = prices[i] + old[1];
+                    notConsider = prev[canBuy];
+                }
+                profit = max(consider, notConsider);
+                dp[canBuy] = profit;
+            }
+            old = prev;
+            prev = dp;
+        }
+        return prev[1];
+    }
+};
