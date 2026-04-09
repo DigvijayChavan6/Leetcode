@@ -49,3 +49,43 @@ public:
         return mx;
     }
 };
+
+
+class Solution {
+    // int getLength(int i, int j, int n, vector<int> &nums,
+    // vector<vector<int>> &dp){
+    //     if(i >= n)return 0;
+    //     if(dp[i][j+1] != -1)return dp[i][j+1];
+    //     int take = 0;
+    //     int notTake = 0;
+    //     if(j == -1 || nums[i] > nums[j]){
+    //         take = 1 + getLength(i+1, i, n, nums, dp);
+    //     }
+    //     notTake = getLength(i+1, j, n, nums, dp);
+
+    //     return dp[i][j+1] = max(take, notTake);
+    // }
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> curr(n+1, 0), next(n+1, 0);
+       
+        for(int i = n-1; i >= 0; i--){
+            for(int j = i-1; j >= -1; j--){
+                int take = 0;
+                int notTake = 0;
+                if(j == -1 || nums[i] > nums[j]){
+                    take = 1 + next[i+1];
+                }
+                notTake = next[j+1];
+
+                curr[j+1] = max(take, notTake);
+            }
+            next = curr;
+        }
+
+        return next[0];
+
+        // return getLength(0, -1, n, nums, dp);
+    }
+};
